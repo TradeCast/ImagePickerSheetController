@@ -9,13 +9,13 @@
 import Foundation
 
 public enum ImagePickerActionStyle {
-    case Default
-    case Cancel
+    case `default`
+    case cancel
 }
 
 public class ImagePickerAction {
     
-    public typealias Title = Int -> String
+    public typealias Title = (Int) -> String
     public typealias Handler = (ImagePickerAction) -> ()
     public typealias SecondaryHandler = (ImagePickerAction, Int) -> ()
     
@@ -35,7 +35,7 @@ public class ImagePickerAction {
     public init(cancelTitle: String) {
         self.title = cancelTitle
         self.secondaryTitle = { _ in cancelTitle }
-        self.style = .Cancel
+        self.style = .cancel
         self.handler = nil
         self.secondaryHandler = nil
     }
@@ -43,14 +43,14 @@ public class ImagePickerAction {
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified.
     /// Secondary handler defaults to handler if not specified.
-    public convenience init(title: String, secondaryTitle: String? = nil, style: ImagePickerActionStyle = .Default, handler: Handler, secondaryHandler: SecondaryHandler? = nil) {
+    public convenience init(title: String, secondaryTitle: String? = nil, style: ImagePickerActionStyle = .default, handler: Handler, secondaryHandler: SecondaryHandler? = nil) {
         self.init(title: title, secondaryTitle: secondaryTitle.map { string in { _ in string }}, style: style, handler: handler, secondaryHandler: secondaryHandler)
     }
     
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified. Use the closure to format a title according to the selection.
     /// Secondary handler defaults to handler if not specified
-    public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .Default, handler: Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
+    public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .default, handler: Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
         var secondaryHandler = secondaryHandlerOrNil
         if secondaryHandler == nil {
             secondaryHandler = { action, _ in
@@ -65,7 +65,7 @@ public class ImagePickerAction {
         self.secondaryHandler = secondaryHandler
     }
     
-    func handle(numberOfImages: Int = 0) {
+    func handle(_ numberOfImages: Int = 0) {
         if numberOfImages > 0 {
             secondaryHandler?(self, numberOfImages)
         }

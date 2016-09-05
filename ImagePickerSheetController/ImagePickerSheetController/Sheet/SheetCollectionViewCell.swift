@@ -9,10 +9,10 @@
 import UIKit
 
 enum RoundedCorner {
-    case All(CGFloat)
-    case Top(CGFloat)
-    case Bottom(CGFloat)
-    case None
+    case all(CGFloat)
+    case top(CGFloat)
+    case bottom(CGFloat)
+    case none
 }
 
 class SheetCollectionViewCell: UICollectionViewCell {
@@ -25,7 +25,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    var roundedCorners = RoundedCorner.None {
+    var roundedCorners = RoundedCorner.none {
         didSet {
             reloadMask()
         }
@@ -37,7 +37,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    var separatorColor = UIColor.blackColor() {
+    var separatorColor = UIColor.black() {
         didSet {
             separatorView?.backgroundColor = separatorColor
         }
@@ -51,19 +51,19 @@ class SheetCollectionViewCell: UICollectionViewCell {
     
     private var separatorView: UIView?
     
-    override var highlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
             reloadBackgroundColor()
         }
     }
     
-    var highlightedBackgroundColor: UIColor = .clearColor() {
+    var highlightedBackgroundColor: UIColor = .clear() {
         didSet {
             reloadBackgroundColor()
         }
     }
     
-    var normalBackgroundColor: UIColor = .clearColor() {
+    var normalBackgroundColor: UIColor = .clear() {
         didSet {
             reloadBackgroundColor()
         }
@@ -75,7 +75,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
         }
         
         switch roundedCorners {
-        case .None:
+        case .none:
             return false
         default:
             return true
@@ -115,7 +115,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
             let maskLayer = CAShapeLayer()
             maskLayer.frame = bounds
             maskLayer.lineWidth = 0
-            maskLayer.fillColor = UIColor.blackColor().CGColor
+            maskLayer.fillColor = UIColor.black().cgColor
             
             layer.mask = maskLayer
         }
@@ -125,25 +125,25 @@ class SheetCollectionViewCell: UICollectionViewCell {
         layerMask?.path = maskPathWithRect(UIEdgeInsetsInsetRect(bounds, backgroundInsets), roundedCorner: roundedCorners)
     }
     
-    private func maskPathWithRect(rect: CGRect, roundedCorner: RoundedCorner) -> CGPathRef {
+    private func maskPathWithRect(_ rect: CGRect, roundedCorner: RoundedCorner) -> CGPath {
         let radii: CGFloat
         let corners: UIRectCorner
         
         switch roundedCorner {
-        case .All(let value):
-            corners = .AllCorners
+        case .all(let value):
+            corners = .allCorners
             radii = value
-        case .Top(let value):
-            corners = [.TopLeft, .TopRight]
+        case .top(let value):
+            corners = [.topLeft, .topRight]
             radii = value
-        case .Bottom(let value):
-            corners = [.BottomLeft, .BottomRight]
+        case .bottom(let value):
+            corners = [.bottomLeft, .bottomRight]
             radii = value
-        case .None:
-            return UIBezierPath(rect: rect).CGPath
+        case .none:
+            return UIBezierPath(rect: rect).cgPath
         }
         
-        return UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii)).CGPath
+        return UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii)).cgPath
     }
     
     // MARK: - Separator
@@ -167,7 +167,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
     // MARK - Background
     
     private func reloadBackgroundColor() {
-        backgroundColor = highlighted ? highlightedBackgroundColor : normalBackgroundColor
+        backgroundColor = isHighlighted ? highlightedBackgroundColor : normalBackgroundColor
     }
     
 }
