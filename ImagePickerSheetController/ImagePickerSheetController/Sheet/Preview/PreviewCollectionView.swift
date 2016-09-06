@@ -34,13 +34,13 @@ class PreviewCollectionView: UICollectionView {
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         panGestureRecognizer.addTarget(self, action: #selector(PreviewCollectionView.handlePanGesture(_:)))
     }
     
     // MARK: - Panning
 
-    @objc private func handlePanGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
+    @objc fileprivate func handlePanGesture(_ gestureRecognizer: UIPanGestureRecognizer) {
         if gestureRecognizer.state == .ended {
             let translation = gestureRecognizer.translation(in: self)
             if translation == CGPoint() {

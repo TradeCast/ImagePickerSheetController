@@ -22,8 +22,8 @@ class AnimationController: NSObject {
     
     // MARK: - Animation
     
-    private func animatePresentation(_ context: UIViewControllerContextTransitioning) {
-        let containerView = context.containerView()
+    fileprivate func animatePresentation(_ context: UIViewControllerContextTransitioning) {
+        let containerView = context.containerView
         
         containerView.addSubview(imagePickerSheetController.view)
         
@@ -39,8 +39,8 @@ class AnimationController: NSObject {
         })
     }
     
-    private func animateDismissal(_ context: UIViewControllerContextTransitioning) {
-        let containerView = context.containerView()
+    fileprivate func animateDismissal(_ context: UIViewControllerContextTransitioning) {
+        let containerView = context.containerView
         
         UIView.animate(withDuration: transitionDuration(using: context), delay: 0, options: .curveEaseIn, animations: { () -> Void in
             self.imagePickerSheetController.sheetCollectionView.frame.origin.y = containerView.bounds.maxY

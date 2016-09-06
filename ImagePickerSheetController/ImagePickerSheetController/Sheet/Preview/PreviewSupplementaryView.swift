@@ -10,9 +10,9 @@ import UIKit
 
 class PreviewSupplementaryView: UICollectionReusableView {
     
-    private let button: UIButton = {
+    fileprivate let button: UIButton = {
         let button = UIButton()
-        button.tintColor = .white()
+        button.tintColor = UIColor.white
         button.isUserInteractionEnabled = false
         button.setImage(PreviewSupplementaryView.checkmarkImage, for: UIControlState())
         button.setImage(PreviewSupplementaryView.selectedCheckmarkImage, for: .selected)
@@ -20,7 +20,7 @@ class PreviewSupplementaryView: UICollectionReusableView {
         return button
     }()
     
-    var buttonInset = UIEdgeInsetsZero
+    var buttonInset = UIEdgeInsets.zero
     
     var selected: Bool = false {
         didSet {
@@ -57,7 +57,7 @@ class PreviewSupplementaryView: UICollectionReusableView {
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         addSubview(button)
     }
     
@@ -75,7 +75,7 @@ class PreviewSupplementaryView: UICollectionReusableView {
         reloadButtonBackgroundColor()
     }
     
-    private func reloadButtonBackgroundColor() {
+    fileprivate func reloadButtonBackgroundColor() {
         button.backgroundColor = (selected) ? tintColor : nil
     }
     

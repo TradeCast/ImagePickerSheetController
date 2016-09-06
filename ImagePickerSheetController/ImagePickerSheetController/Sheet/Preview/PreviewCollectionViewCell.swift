@@ -25,7 +25,7 @@ class PreviewCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private class var videoImage: UIImage? {
+    fileprivate class var videoImage: UIImage? {
         let bundle = Bundle(for: ImagePickerSheetController.self)
         let image = UIImage(named: "PreviewCollectionViewCell-video", in: bundle, compatibleWith: nil)
         
@@ -46,7 +46,7 @@ class PreviewCollectionViewCell: UICollectionViewCell {
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         addSubview(imageView)
         addSubview(videoIndicatorView)
     }

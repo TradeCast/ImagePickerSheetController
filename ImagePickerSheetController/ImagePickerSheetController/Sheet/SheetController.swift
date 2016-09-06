@@ -12,13 +12,13 @@ private let defaultInset: CGFloat = 10
 
 class SheetController: NSObject {
     
-    private(set) lazy var sheetCollectionView: UICollectionView = {
+    fileprivate(set) lazy var sheetCollectionView: UICollectionView = {
         let layout = SheetCollectionViewLayout()
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.accessibilityIdentifier = "ImagePickerSheet"
-        collectionView.backgroundColor = .clear()
+        collectionView.backgroundColor = UIColor.clear
         collectionView.alwaysBounceVertical = false
         collectionView.register(SheetPreviewCollectionViewCell.self, forCellWithReuseIdentifier: NSStringFromClass(SheetPreviewCollectionViewCell.self))
         collectionView.register(SheetActionCollectionViewCell.self, forCellWithReuseIdentifier: NSStringFromClass(SheetActionCollectionViewCell.self))
@@ -28,16 +28,16 @@ class SheetController: NSObject {
     
     var previewCollectionView: PreviewCollectionView
     
-    private(set) var actions = [ImagePickerAction]()
+    fileprivate(set) var actions = [ImagePickerAction]()
     
     var actionHandlingCallback: (() -> ())?
     
-    private(set) var previewHeight: CGFloat = 0
+    fileprivate(set) var previewHeight: CGFloat = 0
     var numberOfSelectedImages = 0
     
     var preferredSheetHeight: CGFloat {
         return allIndexPaths().map { self.sizeForSheetItemAtIndexPath($0).height }
-            .reduce(0, combine: +)
+            .reduce(0, +)
     }
     
     var preferredSheetWidth: CGFloat {
@@ -58,11 +58,11 @@ class SheetController: NSObject {
     // MARK: - Data Source
     // These methods are necessary so that no call cycles happen when calculating some design attributes
     
-    private func numberOfSections() -> Int {
+    fileprivate func numberOfSections() -> Int {
         return 2
     }
     
-    private func numberOfItemsInSection(_ section: Int) -> Int {
+    fileprivate func numberOfItemsInSection(_ section: Int) -> Int {
         if section == 0 {
             return 1
         }
@@ -70,7 +70,7 @@ class SheetController: NSObject {
         return actions.count
     }
     
-    private func allIndexPaths() -> [IndexPath] {
+    fileprivate func allIndexPaths() -> [IndexPath] {
         let s = numberOfSections()
         return (0 ..< s).map { (section: Int) -> (Int, Int) in (self.numberOfItemsInSection(section), section) }
                         .flatMap { (numberOfItems: Int, section: Int) -> [IndexPath] in
@@ -78,7 +78,7 @@ class SheetController: NSObject {
                         }
     }
     
-    private func sizeForSheetItemAtIndexPath(_ indexPath: IndexPath) -> CGSize {
+    fileprivate func sizeForSheetItemAtIndexPath(_ indexPath: IndexPath) -> CGSize {
         let height: CGFloat = {
             if (indexPath as NSIndexPath).section == 0 {
                 return previewHeight
@@ -102,7 +102,7 @@ class SheetController: NSObject {
     
     // MARK: - Design
     
-    private func attributesForItemAtIndexPath(_ indexPath: IndexPath) -> (corners: RoundedCorner, backgroundInsets: UIEdgeInsets) {
+    fileprivate func attributesForItemAtIndexPath(_ indexPath: IndexPath) -> (corners: RoundedCorner, backgroundInsets: UIEdgeInsets) {
         guard #available(iOS 9, *) else {
             return (.none, UIEdgeInsets())
         }
@@ -137,7 +137,7 @@ class SheetController: NSObject {
         return (.none, UIEdgeInsets(top: 0, left: defaultInset, bottom: 0, right: defaultInset))
     }
     
-    private func fontForAction(_ action: ImagePickerAction) -> UIFont {
+    fileprivate func fontForAction(_ action: ImagePickerAction) -> UIFont {
         guard #available(iOS 9, *), action.style == .cancel else {
             return UIFont.systemFont(ofSize: 21)
         }
@@ -166,7 +166,7 @@ class SheetController: NSObject {
         reloadActionItems()
     }
     
-    private func handleAction(_ action: ImagePickerAction) {
+    fileprivate func handleAction(_ action: ImagePickerAction) {
         actionHandlingCallback?()
         action.handle(numberOfSelectedImages)
     }
@@ -232,7 +232,7 @@ extension SheetController: UICollectionViewDataSource {
             cell.separatorColor = UIColor(white: 0.84, alpha: 1)
         }
         else {
-            cell.normalBackgroundColor = .white()
+            cell.normalBackgroundColor = UIColor.white
             cell.highlightedBackgroundColor = UIColor(white: 0.85, alpha: 1)
             cell.separatorColor = UIColor(white: 0.784, alpha: 1)
         }

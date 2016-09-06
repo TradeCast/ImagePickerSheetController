@@ -13,23 +13,23 @@ public enum ImagePickerActionStyle {
     case cancel
 }
 
-public class ImagePickerAction {
+open class ImagePickerAction {
     
     public typealias Title = (Int) -> String
     public typealias Handler = (ImagePickerAction) -> ()
     public typealias SecondaryHandler = (ImagePickerAction, Int) -> ()
     
     /// The title of the action's button.
-    public let title: String
+    open let title: String
     
     /// The title of the action's button when more than one image is selected.
-    public let secondaryTitle: Title
+    open let secondaryTitle: Title
     
     /// The style of the action. This is used to call a cancel handler when dismissing the controller by tapping the background.
-    public let style: ImagePickerActionStyle
+    open let style: ImagePickerActionStyle
     
-    private let handler: Handler?
-    private let secondaryHandler: SecondaryHandler?
+    fileprivate let handler: Handler?
+    fileprivate let secondaryHandler: SecondaryHandler?
     
     /// Initializes a new cancel ImagePickerAction
     public init(cancelTitle: String) {

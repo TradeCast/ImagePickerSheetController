@@ -18,8 +18,12 @@ class PreviewCollectionViewLayout: UICollectionViewFlowLayout {
         }
     }
     
-    private var layoutAttributes = [UICollectionViewLayoutAttributes]()
-    private var contentSize = CGSize.zero
+    override var collectionViewContentSize: CGSize {
+        return contentSize
+    }
+    
+    fileprivate var layoutAttributes = [UICollectionViewLayoutAttributes]()
+    fileprivate var contentSize = CGSize.zero
     
     // MARK: - Initialization
     
@@ -35,7 +39,7 @@ class PreviewCollectionViewLayout: UICollectionViewFlowLayout {
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         scrollDirection = .horizontal
     }
 
@@ -48,8 +52,8 @@ class PreviewCollectionViewLayout: UICollectionViewFlowLayout {
         contentSize = CGSize.zero
 
         if let collectionView = collectionView,
-                   dataSource = collectionView.dataSource,
-                     delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout {
+                   let dataSource = collectionView.dataSource,
+                     let delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout {
             var origin = CGPoint(x: sectionInset.left, y: sectionInset.top)
             let numberOfSections = dataSource.numberOfSections?(in: collectionView) ?? 0
             
@@ -74,10 +78,6 @@ class PreviewCollectionViewLayout: UICollectionViewFlowLayout {
         return true
     }
     
-    override func collectionViewContentSize() -> CGSize {
-        return contentSize
-    }
-    
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint) -> CGPoint {
         var contentOffset = proposedContentOffset
         if let indexPath = invalidationCenteredIndexPath {
@@ -86,7 +86,7 @@ class PreviewCollectionViewLayout: UICollectionViewFlowLayout {
                   contentOffset.x = frame.midX - collectionView.frame.width / 2.0
                 
                 contentOffset.x = max(contentOffset.x, -collectionView.contentInset.left)
-                contentOffset.x = min(contentOffset.x, collectionViewContentSize().width - collectionView.frame.width + collectionView.contentInset.right)
+                contentOffset.x = min(contentOffset.x, collectionViewContentSize.width - collectionView.frame.width + collectionView.contentInset.right)
             }
             invalidationCenteredIndexPath = nil
         }
@@ -111,8 +111,8 @@ class PreviewCollectionViewLayout: UICollectionViewFlowLayout {
     
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         if let collectionView = collectionView,
-            delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout,
-            itemAttributes = layoutAttributesForItem(at: indexPath) {
+            let delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout,
+            let itemAttributes = layoutAttributesForItem(at: indexPath) {
             
             let inset = collectionView.contentInset
             let bounds = collectionView.bounds

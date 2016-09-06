@@ -19,7 +19,7 @@ let imageControllerPreviewIdentifier = "ImagePickerSheetPreview"
 
 class ImagePickerSheetControllerTests: XCTestCase {
     
-    let rootViewController = UIApplication.shared().windows.first!.rootViewController!
+    let rootViewController = UIApplication.shared.windows.first!.rootViewController!
     var imageController: ImagePickerSheetController!
     
     let defaultActionTitle = "Action"

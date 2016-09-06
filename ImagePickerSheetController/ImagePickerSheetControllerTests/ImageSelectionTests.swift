@@ -14,9 +14,9 @@ import ImagePickerSheetController
 
 class ImageSelectionTests: ImagePickerSheetControllerTests {
     
-    let result: PHFetchResult = {
+    let result: PHFetchResult = { () -> PHFetchResult<PHAsset> in 
         let options = PHFetchOptions()
-        options.sortDescriptors = [SortDescriptor(key: "creationDate", ascending: false)]
+        options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         return PHAsset.fetchAssets(with: .image, options: options)
     }()
@@ -47,7 +47,7 @@ class ImageSelectionWithoutLimitTests: ImageSelectionTests {
     func testImageSelection() {
         let selectedAssets = imageController.selectedImageAssets
         result.enumerateObjects { obj, idx, _ in
-            if let asset = obj as? PHAsset where idx < 3 {
+            if let asset = obj as? PHAsset , idx < 3 {
                 expect(asset.localIdentifier) == selectedAssets[idx].localIdentifier
             }
         }
@@ -61,7 +61,7 @@ class ImageSelectionWithoutLimitTests: ImageSelectionTests {
         
         let selectedAssets = imageController.selectedImageAssets
         result.enumerateObjects { obj, idx, _ in
-            if let asset = obj as? PHAsset where idx < self.count && idx > 0 {
+            if let asset = obj as? PHAsset , idx < self.count && idx > 0 {
                 expect(asset.localIdentifier) == selectedAssets[idx-1].localIdentifier
             }
         }
@@ -84,7 +84,7 @@ class ImageSelectionWithLimitTests: ImageSelectionTests {
         
         let selectedAssets = imageController.selectedImageAssets
         result.enumerateObjects { obj, idx, _ in
-            if let asset = obj as? PHAsset where idx < maxSelection && idx > 0 {
+            if let asset = obj as? PHAsset , idx < maxSelection && idx > 0 {
                 expect(asset.localIdentifier) == selectedAssets[idx-1].localIdentifier
             }
         }

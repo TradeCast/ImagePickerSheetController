@@ -37,7 +37,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    var separatorColor = UIColor.black() {
+    var separatorColor = UIColor.black {
         didSet {
             separatorView?.backgroundColor = separatorColor
         }
@@ -49,7 +49,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private var separatorView: UIView?
+    fileprivate var separatorView: UIView?
     
     override var isHighlighted: Bool {
         didSet {
@@ -57,19 +57,19 @@ class SheetCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    var highlightedBackgroundColor: UIColor = .clear() {
+    var highlightedBackgroundColor = UIColor.clear {
         didSet {
             reloadBackgroundColor()
         }
     }
     
-    var normalBackgroundColor: UIColor = .clear() {
+    var normalBackgroundColor = UIColor.clear {
         didSet {
             reloadBackgroundColor()
         }
     }
     
-    private var needsMasking: Bool {
+    fileprivate var needsMasking: Bool {
         guard backgroundInsets == UIEdgeInsets() else {
             return true
         }
@@ -94,7 +94,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
         initialize()
     }
     
-    private func initialize() {
+    fileprivate func initialize() {
         layoutMargins = UIEdgeInsets()
     }
     
@@ -110,12 +110,12 @@ class SheetCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Mask
     
-    private func reloadMask() {
+    fileprivate func reloadMask() {
         if needsMasking && layer.mask == nil {
             let maskLayer = CAShapeLayer()
             maskLayer.frame = bounds
             maskLayer.lineWidth = 0
-            maskLayer.fillColor = UIColor.black().cgColor
+            maskLayer.fillColor = UIColor.black.cgColor
             
             layer.mask = maskLayer
         }
@@ -125,7 +125,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
         layerMask?.path = maskPathWithRect(UIEdgeInsetsInsetRect(bounds, backgroundInsets), roundedCorner: roundedCorners)
     }
     
-    private func maskPathWithRect(_ rect: CGRect, roundedCorner: RoundedCorner) -> CGPath {
+    fileprivate func maskPathWithRect(_ rect: CGRect, roundedCorner: RoundedCorner) -> CGPath {
         let radii: CGFloat
         let corners: UIRectCorner
         
@@ -148,7 +148,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Separator
     
-    private func reloadSeparator() {
+    fileprivate func reloadSeparator() {
         if separatorVisible && backgroundInsets.bottom < separatorHeight {
             if separatorView == nil {
                 let view = UIView()
@@ -166,7 +166,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
     
     // MARK - Background
     
-    private func reloadBackgroundColor() {
+    fileprivate func reloadBackgroundColor() {
         backgroundColor = isHighlighted ? highlightedBackgroundColor : normalBackgroundColor
     }
     

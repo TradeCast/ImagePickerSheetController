@@ -43,14 +43,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }, secondaryHandler: { _, numberOfPhotos in
             print("Comment \(numberOfPhotos) photos")
         }))
-        controller.addAction(ImagePickerAction(title: NSLocalizedString("Photo Library", comment: "Action Title"), secondaryTitle: { NSString.localizedStringWithFormat(NSLocalizedString("ImagePickerSheet.button1.Send %lu Photo", comment: "Action Title"), $0) as String}, handler: { _ in
+        controller.addAction(ImagePickerAction(title: NSLocalizedString("Photo Library", comment: "Action Title"), secondaryTitle: { NSString.localizedStringWithFormat(NSLocalizedString("ImagePickerSheet.button1.Send %lu Photo", comment: "Action Title") as NSString, $0) as String}, handler: { _ in
             presentImagePickerController(.photoLibrary)
         }, secondaryHandler: { _, numberOfPhotos in
             print("Send \(controller.selectedImageAssets)")
         }))
         controller.addAction(ImagePickerAction(cancelTitle: NSLocalizedString("Cancel", comment: "Action Title")))
         
-        if UIDevice.current().userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             controller.modalPresentationStyle = .popover
             controller.popoverPresentationController?.sourceView = view
             controller.popoverPresentationController?.sourceRect = CGRect(origin: view.center, size: CGSize())
