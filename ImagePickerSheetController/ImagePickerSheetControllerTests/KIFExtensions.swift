@@ -36,19 +36,19 @@ extension KIFTestActor {
 extension KIFUITestActor {
     
     // Needed because UICollectionView fails to select an item due to a reason I don't quite grasp
-    func tapImagePreviewAtIndexPath(_ indexPath: NSIndexPath, inCollectionViewWithAccessibilityIdentifier collectionViewIdentifier: String) {
-        let collectionView = waitForViewWithAccessibilityIdentifier(collectionViewIdentifier) as! UICollectionView
+    func tapImagePreviewAtIndexPath(_ indexPath: IndexPath, inCollectionViewWithAccessibilityIdentifier collectionViewIdentifier: String) {
+        let collectionView = waitForView(withAccessibilityIdentifier: collectionViewIdentifier) as! UICollectionView
         
-        let cellAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
+        let cellAttributes = collectionView.layoutAttributesForItem(at: indexPath)
         let contentOffset = CGPoint(x: cellAttributes!.frame.minX-collectionView.contentInset.left, y: 0)
         
         collectionView.setContentOffset(contentOffset, animated: false)
         
-        let newCellAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
-        let cellCenter = collectionView.convertPoint(newCellAttributes!.center, toView: nil)
+        let newCellAttributes = collectionView.layoutAttributesForItem(at: indexPath)
+        let cellCenter = collectionView.convert(newCellAttributes!.center, to: nil)
         
         // Tap it manually here, no UICollectionView selection
-        tapScreenAtPoint(cellCenter)
+        tapScreen(at: cellCenter)
         
         // Wait so that a possible preview zooming animation can finish
         waitForAnimationsToFinish()

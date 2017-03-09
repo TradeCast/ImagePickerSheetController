@@ -12,7 +12,7 @@ class PreviewSupplementaryView: UICollectionReusableView {
     
     fileprivate let button: UIButton = {
         let button = UIButton()
-        button.tintColor = UIColor.white
+        button.tintColor = .white
         button.isUserInteractionEnabled = false
         button.setImage(PreviewSupplementaryView.checkmarkImage, for: UIControlState())
         button.setImage(PreviewSupplementaryView.selectedCheckmarkImage, for: .selected)

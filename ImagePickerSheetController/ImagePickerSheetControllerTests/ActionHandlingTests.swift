@@ -47,7 +47,7 @@ class ActionHandlingTests: ImagePickerSheetControllerTests {
     func testDefaultActionHandling() {
         presentImagePickerSheetController()
         
-        tester().tapViewWithAccessibilityLabel(defaultAction.title)
+        tester().tapView(withAccessibilityLabel: defaultAction.title)
         
         expect(self.defaultActionCalled) == 1
         expect(self.defaultSecondaryActionCalled) == 0
@@ -58,8 +58,8 @@ class ActionHandlingTests: ImagePickerSheetControllerTests {
     func testSecondaryActionHandling() {
         presentImagePickerSheetController()
         
-        tester().tapImagePreviewAtIndexPath(IndexPath(forItem: 0, inSection: 0), inCollectionViewWithAccessibilityIdentifier: imageControllerPreviewIdentifier)
-        tester().tapViewWithAccessibilityLabel(defaultAction.title)
+        tester().tapImagePreviewAtIndexPath(IndexPath(item: 0, section: 0), inCollectionViewWithAccessibilityIdentifier: imageControllerPreviewIdentifier)
+        tester().tapView(withAccessibilityLabel: defaultAction.title)
         
         expect(self.defaultActionCalled) == 0
         expect(self.defaultSecondaryActionCalled) == 1
@@ -70,7 +70,7 @@ class ActionHandlingTests: ImagePickerSheetControllerTests {
     func testCancelActionHandlingWhenTappingAction() {
         presentImagePickerSheetController()
         
-        tester().tapViewWithAccessibilityLabel(cancelAction.title)
+        tester().tapView(withAccessibilityLabel: cancelAction.title)
         
         expect(self.defaultActionCalled) == 0
         expect(self.defaultSecondaryActionCalled) == 0
@@ -81,7 +81,7 @@ class ActionHandlingTests: ImagePickerSheetControllerTests {
     func testCancelActionHandlingWhenTappingBackground() {
         presentImagePickerSheetController()
         
-        tester().tapViewWithAccessibilityIdentifier(imageControllerBackgroundViewIdentifier)
+        tester().tapView(withAccessibilityIdentifier: imageControllerBackgroundViewIdentifier)
         
         expect(self.defaultActionCalled) == 0
         expect(self.defaultSecondaryActionCalled) == 0
@@ -96,7 +96,7 @@ class ActionHandlingTests: ImagePickerSheetControllerTests {
         let indexPath = IndexPath(item: 0, section: 0)
         tester().tapImagePreviewAtIndexPath(indexPath, inCollectionViewWithAccessibilityIdentifier: imageControllerPreviewIdentifier)
         
-        tester().waitForViewWithAccessibilityLabel("Secondary 1")
+        tester().waitForView(withAccessibilityLabel: "Secondary 1")
     }
     
 }

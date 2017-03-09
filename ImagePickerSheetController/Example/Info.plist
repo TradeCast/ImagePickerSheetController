@@ -35,8 +35,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please grant access in order to select a picture.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Please grant access in order to take a picture.</string>
+	<string>Please allow access to browse pictures.</string>
 </dict>
 </plist>

@@ -24,7 +24,6 @@ class AnimationController: NSObject {
     
     fileprivate func animatePresentation(_ context: UIViewControllerContextTransitioning) {
         let containerView = context.containerView
-        
         containerView.addSubview(imagePickerSheetController.view)
         
         let sheetOriginY = imagePickerSheetController.sheetCollectionView.frame.origin.y
@@ -57,10 +56,6 @@ class AnimationController: NSObject {
 extension AnimationController: UIViewControllerAnimatedTransitioning {
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        guard #available(iOS 9, *) else {
-            return 0.3
-        }
-        
         return 0.25
     }
     

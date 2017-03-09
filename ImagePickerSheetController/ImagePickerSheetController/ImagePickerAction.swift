@@ -43,14 +43,17 @@ open class ImagePickerAction {
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified.
     /// Secondary handler defaults to handler if not specified.
-    public convenience init(title: String, secondaryTitle: String? = nil, style: ImagePickerActionStyle = .default, handler: Handler, secondaryHandler: SecondaryHandler? = nil) {
-        self.init(title: title, secondaryTitle: secondaryTitle.map { string in { _ in string }}, style: style, handler: handler, secondaryHandler: secondaryHandler)
+    public convenience init(title: String, secondaryTitle rawSecondaryTitle: String? = nil, style: ImagePickerActionStyle = .default, handler: @escaping Handler, secondaryHandler: SecondaryHandler? = nil) {
+        let secondaryTitle: Title? = rawSecondaryTitle.map { string in
+            return { _ in string }
+        }
+        self.init(title: title, secondaryTitle: secondaryTitle, style: style, handler: handler, secondaryHandler: secondaryHandler)
     }
     
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified. Use the closure to format a title according to the selection.
     /// Secondary handler defaults to handler if not specified
-    public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .default, handler: Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
+    public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .default, handler: @escaping Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
         var secondaryHandler = secondaryHandlerOrNil
         if secondaryHandler == nil {
             secondaryHandler = { action, _ in
@@ -76,7 +79,7 @@ open class ImagePickerAction {
     
 }
 
-func ?? (left: ImagePickerAction.Title?, right: ImagePickerAction.Title) -> ImagePickerAction.Title {
+func ?? (left: ImagePickerAction.Title?, right: @escaping ImagePickerAction.Title) -> ImagePickerAction.Title {
     if let left = left {
         return left
     }

@@ -14,10 +14,6 @@ class SheetCollectionViewLayout: UICollectionViewLayout {
     fileprivate var invalidatedLayoutAttributes: [[UICollectionViewLayoutAttributes]]?
     fileprivate var contentSize = CGSize.zero
     
-    override var collectionViewContentSize: CGSize {
-        return contentSize
-    }
-    
     // MARK: - Layout
     
     override func prepare() {
@@ -27,14 +23,13 @@ class SheetCollectionViewLayout: UICollectionViewLayout {
         contentSize = CGSize.zero
         
         if let collectionView = collectionView,
-            let dataSource = collectionView.dataSource,
             let delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout {
-                let sections = dataSource.numberOfSections?(in: collectionView) ?? 0
+                let sections = collectionView.numberOfSections
                 var origin = CGPoint()
                 
                 for section in 0 ..< sections {
                     var sectionAttributes = [UICollectionViewLayoutAttributes]()
-                    let items = dataSource.collectionView(collectionView, numberOfItemsInSection: section)
+                    let items = collectionView.numberOfItems(inSection: section)
                     let indexPaths = (0 ..< items).map { IndexPath(item: $0, section: section) }
                     
                     for indexPath in indexPaths {
@@ -63,17 +58,21 @@ class SheetCollectionViewLayout: UICollectionViewLayout {
         super.invalidateLayout()
     }
     
+    override var collectionViewContentSize : CGSize {
+        return contentSize
+    }
+    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         return layoutAttributes.reduce([], +)
                                .filter { rect.intersects($0.frame) }
     }
     
     fileprivate func layoutAttributesForItemAtIndexPath(_ indexPath: IndexPath, allAttributes: [[UICollectionViewLayoutAttributes]]) -> UICollectionViewLayoutAttributes? {
-        guard allAttributes.count > (indexPath as NSIndexPath).section && allAttributes[(indexPath as NSIndexPath).section].count > (indexPath as NSIndexPath).item else {
+        guard allAttributes.count > indexPath.section && allAttributes[indexPath.section].count > indexPath.item else {
             return nil
         }
         
-        return allAttributes[(indexPath as NSIndexPath).section][(indexPath as NSIndexPath).item]
+        return allAttributes[indexPath.section][indexPath.item]
     }
     
     fileprivate func invalidatedLayoutAttributesForItemAtIndexPath(_ indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {

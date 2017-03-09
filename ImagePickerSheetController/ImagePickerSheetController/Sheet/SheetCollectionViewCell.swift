@@ -57,13 +57,13 @@ class SheetCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    var highlightedBackgroundColor = UIColor.clear {
+    var highlightedBackgroundColor: UIColor = .clear {
         didSet {
             reloadBackgroundColor()
         }
     }
     
-    var normalBackgroundColor = UIColor.clear {
+    var normalBackgroundColor: UIColor = .clear {
         didSet {
             reloadBackgroundColor()
         }

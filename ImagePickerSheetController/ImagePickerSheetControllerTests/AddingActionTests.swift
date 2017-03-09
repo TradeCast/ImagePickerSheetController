@@ -32,7 +32,7 @@ class AddingActionTests: ImagePickerSheetControllerTests {
         presentImagePickerSheetController()
         
         for (title, _) in actions {
-            tester().waitForViewWithAccessibilityLabel(title)
+            tester().waitForView(withAccessibilityLabel: title)
         }
     }
     
@@ -47,7 +47,7 @@ class AddingActionTests: ImagePickerSheetControllerTests {
         presentImagePickerSheetController()
         
         imageController.addAction(ImagePickerAction(title: defaultActionTitle, handler: { _ in }))
-        tester().waitForViewWithAccessibilityLabel(defaultActionTitle)
+        tester().waitForView(withAccessibilityLabel: defaultActionTitle)
     }
     
 }

@@ -10,18 +10,25 @@ import UIKit
 import Photos
 import ImagePickerSheetController
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController {
     
-    // MARK: View Lifecycle
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.presentImagePickerSheet(_:)))
-        view.addGestureRecognizer(tapRecognizer)
+        let button = UIButton(type: .system)
+        button.setTitle("Tap Me!", for: UIControlState())
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
+        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        button.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        button.addTarget(self, action: #selector(presentImagePickerSheet(_:)), for: .touchUpInside)
     }
     
-    // MARK: Other Methods
+    // MARK: - Other Methods
     
     func presentImagePickerSheet(_ gestureRecognizer: UITapGestureRecognizer) {
         let presentImagePickerController: (UIImagePickerControllerSourceType) -> () = { source in
@@ -38,6 +45,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         
         let controller = ImagePickerSheetController(mediaType: .imageAndVideo)
+        controller.delegate = self
+        
         controller.addAction(ImagePickerAction(title: NSLocalizedString("Take Photo Or Video", comment: "Action Title"), secondaryTitle: NSLocalizedString("Add comment", comment: "Action Title"), handler: { _ in
             presentImagePickerController(.camera)
         }, secondaryHandler: { _, numberOfPhotos in
@@ -46,7 +55,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         controller.addAction(ImagePickerAction(title: NSLocalizedString("Photo Library", comment: "Action Title"), secondaryTitle: { NSString.localizedStringWithFormat(NSLocalizedString("ImagePickerSheet.button1.Send %lu Photo", comment: "Action Title") as NSString, $0) as String}, handler: { _ in
             presentImagePickerController(.photoLibrary)
         }, secondaryHandler: { _, numberOfPhotos in
-            print("Send \(controller.selectedImageAssets)")
+            print("Send \(controller.selectedAssets)")
         }))
         controller.addAction(ImagePickerAction(cancelTitle: NSLocalizedString("Cancel", comment: "Action Title")))
         
@@ -59,10 +68,41 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(controller, animated: true, completion: nil)
     }
     
-    // MARK: UIImagePickerControllerDelegate
+}
+
+// MARK: - UIImagePickerControllerDelegate
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - ImagePickerSheetControllerDelegate
+extension ViewController: ImagePickerSheetControllerDelegate {
+    
+    func controllerWillEnlargePreview(_ controller: ImagePickerSheetController) {
+        print("Will enlarge the preview")
+    }
+    
+    func controllerDidEnlargePreview(_ controller: ImagePickerSheetController) {
+        print("Did enlarge the preview")
+    }
+    
+    func controller(_ controller: ImagePickerSheetController, willSelectAsset asset: PHAsset) {
+        print("Will select an asset")
+    }
+    
+    func controller(_ controller: ImagePickerSheetController, didSelectAsset asset: PHAsset) {
+        print("Did select an asset")
+    }
+    
+    func controller(_ controller: ImagePickerSheetController, willDeselectAsset asset: PHAsset) {
+        print("Will deselect an asset")
+    }
+    
+    func controller(_ controller: ImagePickerSheetController, didDeselectAsset asset: PHAsset) {
+        print("Did deselect an asset")
     }
     
 }
