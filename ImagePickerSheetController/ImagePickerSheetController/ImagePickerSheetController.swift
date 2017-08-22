@@ -37,13 +37,12 @@ open class ImagePickerSheetController: UIViewController {
     fileprivate lazy var sheetController: SheetController = {
         let controller = SheetController(previewCollectionView: self.previewCollectionView)
         controller.actionHandlingCallback = { [weak self] in
-            self?.dismiss(animated: true, completion: { _ in
+            self?.dismiss(animated: true, completion: {
                 // Possible retain cycle when action handlers hold a reference to the IPSC
                 // Remove all actions to break it
                 controller.removeAllActions()
             })
         }
-        
         return controller
     }()
     
@@ -75,7 +74,6 @@ open class ImagePickerSheetController: UIViewController {
         view.accessibilityIdentifier = "ImagePickerSheetBackground"
         view.backgroundColor = UIColor(white: 0.0, alpha: 0.3961)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self.sheetController, action: #selector(SheetController.handleCancelAction)))
-        
         return view
     }()
     
