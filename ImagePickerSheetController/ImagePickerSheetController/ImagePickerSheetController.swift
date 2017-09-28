@@ -299,6 +299,7 @@ open class ImagePickerSheetController: UIViewController {
             var backgroundViewFrame = UIScreen.main.bounds
             backgroundViewFrame.origin.y = -offset
             backgroundViewFrame.size.height += offset
+            backgroundViewFrame.origin.x = -((backgroundViewFrame.size.width - view.bounds.size.width)/2)
             backgroundView.frame = backgroundViewFrame
         }
         else {
@@ -352,7 +353,7 @@ open class ImagePickerSheetController: UIViewController {
 
         // Just a sanity check, to make sure this doesn't exceed 400 points
         let scaledHeight: CGFloat = min(assetHeight, maxHeight)
-        maximumPreviewHeight = scaledHeight + 2 * previewInset
+        maximumPreviewHeight = min(scaledHeight + 2 * previewInset,self.view.frame.height-191)
     }
     
     // MARK: -
